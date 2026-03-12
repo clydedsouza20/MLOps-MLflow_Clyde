@@ -18,9 +18,12 @@ After tuning the hyperparameters (e.g., `n_estimators=100`, `max_depth=10`), the
 
 | Metric | Value |
 | :--- | :--- |
-| **R² Score** | ~0.80 |
-| **Mean Squared Error** | *(Insert your MSE here)* |
-| **Mean Absolute Error** | *(Insert your MAE here)* |
+| **R² Score** | 
+0.7737402686595128 |
+| **Mean Squared Error** | 
+0.29649278336294826 |
+| **Mean Absolute Error** | 
+0.36628896132800176|
 
 ---
 
