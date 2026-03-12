@@ -16,7 +16,7 @@ The goal of this lab was to implement a reproducible ML pipeline that tracks mod
 ## 📊 Model Performance
 After tuning the hyperparameters (e.g., `n_estimators=100`, `max_depth=10`), the model achieved the following results:
 
-| Metric | Value |
+| Metric | 
 | :--- | :--- |
 | **R² Score** | 
 0.7737402686595128 |
