@@ -1,35 +1,52 @@
 import mlflow
 import mlflow.sklearn
-import pandas as pd
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# Load unique dataset
-data = fetch_california_housing()
-X = pd.DataFrame(data.data, columns=data.feature_names)
-y = data.target
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+def train_model():
+    # 1. Load the dataset
+    housing = fetch_california_housing()
+    X, y = housing.data, housing.target
 
-# Set the experiment name
-mlflow.set_experiment("Clyde_Housing_MLOps")
+    # 2. Split the data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-with mlflow.start_run(run_name="Initial_Model"):
-    # Log parameters
-    params = {"n_estimators": 100, "learning_rate": 0.1, "max_depth": 3}
-    mlflow.log_params(params)
+    # 3. Set Experiment Name
+    mlflow.set_experiment("California_Housing_Project")
 
-    # Train
-    model = GradientBoostingRegressor(**params)
-    model.fit(X_train, y_train)
+    with mlflow.start_run():
+        # 4. Define and train the model
+        params = {"n_estimators": 100, "max_depth": 10, "random_state": 42}
+        rf = RandomForestRegressor(**params)
+        rf.fit(X_train, y_train)
 
-    # Log metrics
-    preds = model.predict(X_test)
-    r2 = r2_score(y_test, preds)
-    mlflow.log_metric("r2_score", r2)
-    
-    # Log model artifact
-    mlflow.sklearn.log_model(model, "model")
+        # 5. Make predictions
+        y_pred = rf.predict(X_test)
 
-    print(f"Run Finished! R2 Score: {r2:.4f}")
+        # 6. Calculate Metrics
+        mse = mean_squared_error(y_test, y_pred)
+        mae = mean_absolute_error(y_test, y_pred)
+        r2 = r2_score(y_test, y_pred)
+
+        # 7. Print to Terminal (So you can see them immediately!)
+        print("-" * 30)
+        print(" Run Finished!")
+        print(f"Mean Squared Error (MSE): {mse:.4f}")
+        print(f"Mean Absolute Error (MAE): {mae:.4f}")
+        print(f"R2 Score: {r2:.4f}")
+        print("-" * 30)
+
+        # 8. Log Parameters and Metrics to MLflow
+        mlflow.log_params(params)
+        mlflow.log_metric("mse", mse)
+        mlflow.log_metric("mae", mae)
+        mlflow.log_metric("r2", r2)
+
+        # 9. Log the Model
+        mlflow.sklearn.log_model(rf, "random-forest-model")
+        print("Model and metrics logged to MLflow successfully.")
+
+if __name__ == "__main__":
+    train_model()
