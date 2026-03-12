@@ -16,15 +16,11 @@ The goal of this lab was to implement a reproducible ML pipeline that tracks mod
 ## 📊 Model Performance
 After tuning the hyperparameters (e.g., `n_estimators=100`, `max_depth=10`), the model achieved the following results:
 
-| Metric | value |
+| Metric | Value |
 | :--- | :--- |
-| **R² Score** | 
-0.7737402686595128 |
-| **Mean Squared Error** | 
-0.29649278336294826 |
-| **Mean Absolute Error** | 
-0.36628896132800176|
-
+| **R² Score** | 0.7756 |
+| **Mean Squared Error (MSE)** | 0.2554 |
+| **Mean Absolute Error (MAE)** | 0.3297 |
 ---
 
 ## 🛠️ Setup and Installation
